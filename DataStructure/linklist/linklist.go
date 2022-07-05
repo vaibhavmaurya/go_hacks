@@ -1,4 +1,4 @@
-package main
+package linklist
 
 // Type declaration comes inside the square bracket
 
@@ -19,13 +19,13 @@ type LinkList[T comparable] struct {
 
 // Single LinkList
 
-func (l LinkList[T]) isEmpty() bool {
+func (l LinkList[T]) IsEmpty() bool {
 	return l.head == nil
 }
 
 func (l LinkList[T]) getLastNode() *node[T] {
 
-	if l.isEmpty() {
+	if l.IsEmpty() {
 		return nil
 	}
 	currentNode := l.head
@@ -37,7 +37,7 @@ func (l LinkList[T]) getLastNode() *node[T] {
 
 func (l LinkList[T]) getSecondLastNode() *node[T] {
 
-	if l.isEmpty() || l.head.next == nil {
+	if l.IsEmpty() || l.head.next == nil {
 		return nil
 	}
 	currentNode := l.head
@@ -47,10 +47,10 @@ func (l LinkList[T]) getSecondLastNode() *node[T] {
 	return currentNode
 }
 
-func (l *LinkList[T]) addNode(n T) {
+func (l *LinkList[T]) AddNode(n T) {
 	newNode := &node[T]{next: nil, prev: nil, value: n}
 
-	if l.isEmpty() {
+	if l.IsEmpty() {
 		l.head = newNode
 	} else {
 		currentNode := l.getLastNode()
@@ -58,8 +58,22 @@ func (l *LinkList[T]) addNode(n T) {
 	}
 }
 
-func (l *LinkList[int]) removeFront() bool {
-	if l.isEmpty() {
+func (l *LinkList[T]) AddNodeMultiple(n ...T) {
+	start := 0
+	if l.IsEmpty() {
+		l.head = &node[T]{next: nil, prev: nil, value: n[start]}
+		start++
+	} else {
+		currentNode := l.getLastNode()
+		for ; start < len(n); start++ {
+			currentNode.next = &node[T]{next: nil, prev: nil, value: n[start]}
+			currentNode = currentNode.next
+		}
+	}
+}
+
+func (l *LinkList[int]) RemoveFront() bool {
+	if l.IsEmpty() {
 		// TODO: Implement exception handling here
 		return false
 	} else {
@@ -72,8 +86,8 @@ func (l *LinkList[int]) removeFront() bool {
 	}
 }
 
-func (l *LinkList[T]) removeTail() bool {
-	if l.isEmpty() {
+func (l *LinkList[T]) RemoveTail() bool {
+	if l.IsEmpty() {
 		// TODO: Implement exception handling here
 		return false
 	} else {
@@ -87,10 +101,10 @@ func (l *LinkList[T]) removeTail() bool {
 	}
 }
 
-func (l LinkList[T]) traverse() []T {
+func (l LinkList[T]) Traverse() []T {
 	var items []T
 
-	if l.isEmpty() {
+	if l.IsEmpty() {
 		return items
 	}
 

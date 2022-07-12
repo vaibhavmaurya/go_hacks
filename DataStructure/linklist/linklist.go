@@ -1,6 +1,13 @@
 package linklist
 
+import (
+	"fmt"
+	"go_hacks/DataStructure"
+)
+
 // Type declaration comes inside the square bracket
+
+var errorList DataStructure.ErrorList = make(DataStructure.ErrorList, 0)
 
 type node[T comparable] struct {
 	next  *node[T]
@@ -18,6 +25,10 @@ type LinkList[T comparable] struct {
 // }
 
 // Single LinkList
+
+func (l LinkList[T]) String() string {
+	return "I am Link List"
+}
 
 func (l LinkList[T]) IsEmpty() bool {
 	return l.head == nil
@@ -75,6 +86,7 @@ func (l *LinkList[T]) AddNodeMultiple(n ...T) {
 func (l *LinkList[int]) RemoveFront() bool {
 	if l.IsEmpty() {
 		// TODO: Implement exception handling here
+		errorList = errorList.New("Remove Failed", "LinkList", "Already Empty")
 		return false
 	} else {
 		if l.head.next == nil {
@@ -89,6 +101,7 @@ func (l *LinkList[int]) RemoveFront() bool {
 func (l *LinkList[T]) RemoveTail() bool {
 	if l.IsEmpty() {
 		// TODO: Implement exception handling here
+		errorList = errorList.New("Remove Failed", "LinkList", "Already Empty")
 		return false
 	} else {
 		if l.head.next == nil {
@@ -112,4 +125,11 @@ func (l LinkList[T]) Traverse() []T {
 		items = append(items, currentNode.value)
 	}
 	return items
+}
+
+func ShowErrors() {
+	fmt.Println("Show errors here: ", len(errorList))
+	for _, e := range errorList.GetErrors() {
+		fmt.Println(e)
+	}
 }

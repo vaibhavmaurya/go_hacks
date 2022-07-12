@@ -1,8 +1,11 @@
 package main
 
+//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
+
 import (
 	"fmt"
-	"go_hacks/data_structure/linklist"
+
+	"go_hacks/DataStructure/linklist"
 )
 
 func main() {
@@ -29,4 +32,11 @@ func main() {
 	lst.RemoveFront()
 	lst.RemoveTail()
 	fmt.Println(lst.Traverse())
+
+	fmt.Println(lst)
+
+	lst.RemoveTail()
+	lst.RemoveTail()
+
+	linklist.ShowErrors()
 }

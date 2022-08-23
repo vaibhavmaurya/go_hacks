@@ -14,10 +14,10 @@ func TestLinkListSingleElement(t *testing.T) {
 
 	switch {
 	case len(check) != 1:
-		t.Fatalf("There must be one element returned by Traverse")
+		t.Errorf("There must be one element returned by Traverse")
 		fallthrough
 	case check[0] != "Hello":
-		t.Fatalf("Traverese must return Hello as a first element")
+		t.Errorf("Traverese must return Hello as a first element")
 	default:
 		fmt.Println("SUCCESS")
 	}
@@ -33,11 +33,11 @@ func TestLinkListRemoval(t *testing.T) {
 	check := lst.Traverse()
 
 	switch {
-	case len(check) != 2:
-		t.Fatalf("There must be one element returned by Traverse")
+	case len(check) != 1:
+		t.Errorf("There must be one element returned by Traverse")
 		fallthrough
 	case check[0] != "Hello" || check[1] != "Check":
-		t.Fatalf("Traverese must return Hello as a first element and Check as second element")
+		t.Errorf("Traverese must return Hello as a first element and Check as second element")
 	default:
 		fmt.Println("SUCCESS")
 	}
@@ -47,10 +47,10 @@ func TestLinkListRemoval(t *testing.T) {
 
 	switch {
 	case !c || len(check) != 1:
-		t.Fatalf("There must be one element returned by Traverse")
+		t.Errorf("There must be one element returned by Traverse")
 		fallthrough
 	case check[0] != "Check":
-		t.Fatalf("Hello is not removed")
+		t.Errorf("Hello is not removed")
 	default:
 		fmt.Println("SUCCESS")
 	}

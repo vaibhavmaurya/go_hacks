@@ -118,10 +118,10 @@ default_args = {
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
-    'on_success_callback': handle_callback,
-    'on_failure_callback': handle_callback,
-    'sla_miss_callback' : handle_callback,
-    'on_retry_callback' : handle_callback,
+    # 'on_success_callback': handle_callback,
+    # 'on_failure_callback': handle_callback,
+    # 'sla_miss_callback' : handle_callback,
+    # 'on_retry_callback' : handle_callback,
     'on_execute_callback' : handle_callback
 }
 
@@ -132,13 +132,15 @@ with DAG(
     schedule_interval=None,  # This schedules the DAG to run every 5 minutes
     start_date=datetime(2024, 2, 1),
     catchup=False,
+    on_success_callback=handle_callback,
+    on_failure_callback=handle_callback,
 ) as dag:
     
 
-    start_task = PythonOperator(
-        task_id='start_task',
-        python_callable=start_dag,
-    )
+    # start_task = PythonOperator(
+    #     task_id='start_task',
+    #     python_callable=start_dag,
+    # )
 
     # Parallel tasks
     sleep_5_seconds = PythonOperator(
@@ -161,17 +163,17 @@ with DAG(
         trigger_rule='all_done',  # Ensures this runs after all parallel tasks are done
     )
 
-    end_task_success = PythonOperator(
-        task_id='end_task_success',
-        python_callable=end_dag,
-        trigger_rule='all_success',  # This ensures it only runs if all tasks are successful
-    )
+    # end_task_success = PythonOperator(
+    #     task_id='end_task_success',
+    #     python_callable=end_dag,
+    #     trigger_rule='all_success',  # This ensures it only runs if all tasks are successful
+    # )
 
-    end_task_failed = PythonOperator(
-        task_id='end_task_failed',
-        python_callable=end_dag,
-        trigger_rule='one_failed',  # This ensures it only runs if any tasks fails
-    )
+    # end_task_failed = PythonOperator(
+    #     task_id='end_task_failed',
+    #     python_callable=end_dag,
+    #     trigger_rule='one_failed',  # This ensures it only runs if any tasks fails
+    # )
     
-    start_task >> [sleep_5_seconds, sleep_10_seconds] >> sleep_15_seconds >> end_task_success
-    [sleep_5_seconds, sleep_10_seconds, sleep_15_seconds] >> end_task_failed
+    start_task >> [sleep_5_seconds, sleep_10_seconds] >> sleep_15_seconds
+    # [sleep_5_seconds, sleep_10_seconds, sleep_15_seconds] >> end_task_failed
